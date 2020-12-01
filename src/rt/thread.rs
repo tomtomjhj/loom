@@ -18,6 +18,8 @@ pub(crate) struct Thread {
     /// Tracks observed causality
     pub causality: VersionVec,
 
+    pub rel_view: VersionVec,
+
     /// Tracks DPOR relations
     pub dpor_vv: VersionVec,
 
@@ -85,6 +87,7 @@ impl Thread {
             critical: false,
             operation: None,
             causality: VersionVec::new(),
+            rel_view: VersionVec::new(),
             dpor_vv: VersionVec::new(),
             last_yield: None,
             yield_count: 0,
@@ -168,6 +171,7 @@ impl fmt::Debug for Thread {
             .field("critical", &self.critical)
             .field("operation", &self.operation)
             .field("causality", &self.causality)
+            .field("rel_view", &self.rel_view)
             .field("dpor_vv", &self.dpor_vv)
             .field("last_yield", &self.last_yield)
             .field("yield_count", &self.yield_count)
