@@ -1,33 +1,56 @@
 //! An atomic cell
 //!
-//! # Coherence
+//! # Modification order implications (figure 7)
 //!
-//! The coherence rules are implemented as follows.
-//!
-//! - Read-Read:
+//! - Read-Read Coherence:
 //!
 //!   On `load`, all stores are iterated, finding stores that were read by
 //!   actions in the current thread's causality. These loads happen-before the
 //!   current load. The `modification_order` of these happen-before loads are
 //!   joined into the current load's `modification_order`.
 //!
-//! - Write-Read:
+//! - Write-Read Coherence:
 //!
 //!   On `load`, all stores are iterated, finding stores that happens-before the
 //!   current thread's causality. The `modification_order` of these stores are
 //!   joined into the current load's `modification_order`.
 //!
-//! - Read-Write:
+//! - Read-Write Coherence:
 //!
 //!   On `store`, find all existing stores that were read in the current
 //!   thread's causality. Join these stores' `modification_order` into the new
 //!   store's modification order.
 //!
-//! - Write-Write:
+//! - Write-Write Coherence:
 //!
 //!   The `modification_order` is initialized to the thread's causality. Any
 //!   store that happened in the thread causality will be earlier in the
 //!   modification order.
+//!
+//! - Seq-cst/MO Consistency:
+//!
+//! - Seq-cst Write-Read Coherence:
+//!
+//! - RMW/MO Consistency: Subsumed by Write-Write Coherence?
+//!
+//! - RMW Atomicity: TODO not handled?
+//!
+//!
+//! # Fence modification order implications (figure 9)
+//!
+//! - SC Fences Restrict RF:
+//! - SC Fences Restrict RF (Collapsed Store):
+//! - SC Fences Restrict RF (Collapsed Load):
+//! - SC Fences Impose MO:
+//! - SC Fences Impose MO (Collapsed 1st Store):
+//! - SC Fences Impose MO (Collapsed 2st Store):
+//!
+//!
+//! # Fence Synchronization implications (figure 10)
+//!
+//! - Fence Synchronization
+//! - Fence Synchronization (Collapsed Store)
+//! - Fence Synchronization (Collapsed Load)
 
 use crate::rt::location::{self, Location, LocationSet};
 use crate::rt::object;
