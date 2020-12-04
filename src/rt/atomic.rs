@@ -732,6 +732,7 @@ impl State {
                 let mo_i = store_i.modification_order;
                 let mo_j = store_j.modification_order;
 
+                // TODO: this failed
                 assert_ne!(mo_i, mo_j);
 
                 if mo_i < mo_j {
